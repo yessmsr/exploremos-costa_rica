@@ -1,15 +1,19 @@
 {
   "name": "exploremos-costa_rica-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend API para Exploremos Costa Rica",
+  "main": "dist/server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx --env-file=.env ./src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^7.8.0",
     "cors": "^2.8.6",

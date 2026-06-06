@@ -1,13 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Province {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+  imageUrl    String?
+
+  places      Place[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+
+  places    Place[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Place {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+
+  latitude    Float?
+  longitude   Float?
+  imageUrl    String?
+
+  provinceId  String
+  province    Province @relation(fields: [provinceId], references: [id])
+
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
