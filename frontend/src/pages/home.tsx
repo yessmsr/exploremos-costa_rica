@@ -16,7 +16,7 @@ import guanacasteImg from "../assets/carousel/guanacaste.jpg";
 import herediaImg from "../assets/carousel/heredia.jpg";
 import limonImg from "../assets/carousel/limon.jpg";
 import puntarenasImg from "../assets/carousel/puntarenas.jpg";
-import sanJoseImg from "../assets/carousel/sanjose.jpg";
+import sanJoseImg from "../assets/carousel/sanJose.jpg";
 
 const provinces = [
   { name: "San José", icon: <Building2 size={26} /> },

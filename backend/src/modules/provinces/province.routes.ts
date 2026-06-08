@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { getAllProvinces } from "./province.controller.js";
+import {
+  getAllProvinces,
+  getProvinceDetail,
+} from "./province.controller.js";
 
 const router = Router();
 
 router.get("/", getAllProvinces);
+router.get("/:slug", getProvinceDetail);
 
 export default router;

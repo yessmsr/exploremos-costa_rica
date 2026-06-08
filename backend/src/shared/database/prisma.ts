@@ -1,20 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-let instance: PrismaClient | null = null;
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
 
-export function getPrisma(): PrismaClient {
-  if (instance === null) {
-    instance = new PrismaClient();
-  }
-  return instance;
-}
-
-// Crear un proxy que instancie lazily
-export const prisma = new Proxy({} as PrismaClient, {
-  get: (_, prop) => {
-    if (prop === Symbol.toStringTag) {
-      return "PrismaClient";
-    }
-    return (getPrisma() as any)[prop];
-  },
+export const prisma = new PrismaClient({
+  adapter,
 });
