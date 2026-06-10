@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import provinceRoutes from "./modules/provinces/province.routes.js";
+import placeRoutes from "./modules/places/place.routes.js";
 
 export const app = express();
 
@@ -15,3 +16,4 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/provinces", provinceRoutes);
+app.use("/api/places", placeRoutes);
