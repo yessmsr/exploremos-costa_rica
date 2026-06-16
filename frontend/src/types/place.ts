@@ -1,21 +1,10 @@
-export type PlaceCategory =
-  | "national_park"
-  | "beach"
-  | "restaurant"
-  | "cafe"
-  | "viewpoint"
-  | "museum"
-  | "waterfall"
-  | "other";
-
-export type Place = {
+export interface Place {
   id: string;
   name: string;
   slug: string;
   description: string;
-  category: PlaceCategory;
-  location: string;
-  imageUrl?: string;
-  rating?: number;
-  isFeatured?: boolean;
-};
+  imageUrl: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+}

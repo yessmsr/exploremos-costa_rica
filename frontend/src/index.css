@@ -201,7 +201,65 @@ body {
   background: rgba(18, 61, 19, 0.9);
   border-color: rgba(18, 61, 19, 1);
 }
+.backButton {
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  font-weight: 600;
+}
 
+.placeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.placeCard {
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
+.placeCardImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.placeCardContent {
+  padding: 16px;
+}
+
+.placeCategory {
+  font-size: 12px;
+  font-weight: 700;
+  color: #123d13;
+}
+
+.placeCard h3 {
+  margin: 8px 0;
+}
+
+.placeCard p {
+  margin: 0;
+  color: rgba(17, 17, 17, 0.7);
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .placeGrid {
+    grid-template-columns: 1fr;
+  }
+}
 /* Responsive */
 @media (max-width: 640px) {
   .carouselFrame {

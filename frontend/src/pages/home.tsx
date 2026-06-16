@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProvinceCard from "../shared/ProvinceCard";
+import { getProvinces } from "../services/provinceService";
+import type { Province } from "../types/province";
+
 import {
   Building2,
   Palmtree,
@@ -18,17 +22,12 @@ import limonImg from "../assets/carousel/limon.jpg";
 import puntarenasImg from "../assets/carousel/puntarenas.jpg";
 import sanJoseImg from "../assets/carousel/sanJose.jpg";
 
-const provinces = [
-  { name: "San José", icon: <Building2 size={26} /> },
-  { name: "Limón", icon: <Palmtree size={26} /> },
-  { name: "Cartago", icon: <Church size={26} /> },
-  { name: "Alajuela", icon: <Mountain size={26} /> },
-  { name: "Heredia", icon: <Leaf size={26} /> },
-  { name: "Puntarenas", icon: <Ship size={26} /> },
-  { name: "Guanacaste", icon: <Compass size={26} /> },
-];
-
 export default function Home() {
+  const navigate = useNavigate();
+
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const images = useMemo(
     () => [
       sanJoseImg,
@@ -42,9 +41,18 @@ export default function Home() {
     []
   );
 
+  const provinceIcons: Record<string, React.ReactNode> = {
+    "San José": <Building2 size={26} />,
+    Limón: <Palmtree size={26} />,
+    Cartago: <Church size={26} />,
+    Alajuela: <Mountain size={26} />,
+    Heredia: <Leaf size={26} />,
+    Puntarenas: <Ship size={26} />,
+    Guanacaste: <Compass size={26} />,
+  };
+
   const [active, setActive] = useState(0);
 
-  // Autoplay cada 3s
   useEffect(() => {
     const id = window.setInterval(() => {
       setActive((i) => (i + 1) % images.length);
@@ -52,6 +60,21 @@ export default function Home() {
 
     return () => window.clearInterval(id);
   }, [images.length]);
+
+  useEffect(() => {
+    const loadProvinces = async () => {
+      try {
+        const data = await getProvinces();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Error loading provinces:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProvinces();
+  }, []);
 
   return (
     <div className="home">
@@ -62,11 +85,11 @@ export default function Home() {
         </p>
       </section>
 
-      {/* CARRUSEL */}
       <section className="carousel">
         <div className="carouselFrame">
           <img className="carouselImg" src={images[active]} alt="Costa Rica" />
         </div>
+
         <div className="carouselDots">
           {images.map((_, idx) => (
             <button
@@ -80,7 +103,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROVINCIAS */}
       <section className="section">
         <div className="sectionHeader">
           <p className="sectionSubtitle">
@@ -88,16 +110,24 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="provinceGrid">
-          {provinces.map((p) => (
-            <ProvinceCard
-              key={p.name}
-              title={p.name}
-              icon={p.icon}
-              onClick={() => alert(` ${p.name}`)}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <p>Cargando provincias...</p>
+        ) : (
+          <div className="provinceGrid">
+            {provinces.map((province) => (
+              <ProvinceCard
+                key={province.id}
+                title={province.name}
+                icon={
+                  provinceIcons[province.name] ?? <Compass size={26} />
+                }
+                onClick={() =>
+                  navigate(`/provincias/${province.slug}`)
+                }
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
